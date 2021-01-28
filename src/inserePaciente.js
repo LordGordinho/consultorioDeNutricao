@@ -12,6 +12,7 @@ btnGetPaciente.addEventListener("click", evnt => {
     pacientes.push(paciente)
     salvaLocal()
     redenrizaPacientes()
+    adicionaEventoDoclick()
     document.querySelector("#formInserirPaciente").reset()
 })
 
@@ -37,10 +38,29 @@ function redenrizaPacientes(){
         trPaciente.classList.add("paciente")
         tablePacientes.appendChild(trPaciente)
     })
+    
 }
 
 function criaTdPaciente(element){
     let td = document.createElement("td")
     td.textContent = element
     return td
+}
+function adicionaEventoDoclick(){
+    let trPacientes = document.querySelectorAll(".paciente");
+    trPacientes.forEach(trPaciente =>{
+        trPaciente.addEventListener("dblclick", Event =>{
+            let newPacientes = []
+            let contadorDaPosicaoDoArray=0;
+            pacientes.forEach(paciente =>{
+                if((Event.path[1].rowIndex-1)!=contadorDaPosicaoDoArray){
+                    newPacientes.push(paciente)
+                }
+                contadorDaPosicaoDoArray++;
+            })
+            pacientes = newPacientes;
+            salvaLocal();
+        })
+    })
+    redenrizaPacientes();
 }
